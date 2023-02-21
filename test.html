@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Twitter Follower Count</title>
+</head>
+<body>
+  <h1>Twitter Follower Count</h1>
+  <label for="handle">Enter Twitter Handle:</label>
+  <input type="text" id="handle">
+  <button onclick="getFollowers()">Get Followers</button>
+  <p id="result"></p>
+
+  <script>
+    function getFollowers() {
+      var handle = document.getElementById("handle").value;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'https://cdn.syndication.twimg.com/widgets/followbutton/info.json?screen_names=' + handle);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          var data = JSON.parse(xhr.responseText);
+          var followers = data[0].followers_count;
+          document.getElementById("result").innerHTML = "Followers: " + followers;
+        } else {
+          alert('Request failed.  Returned status of ' + xhr.status);
+        }
+      };
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
+
